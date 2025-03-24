@@ -26,10 +26,13 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
+    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
+    "prettier": "prettier -w ."
   },
   "dependencies": {
-    "@nuxt/kit": "^3.16.1"
+    "@nuxt/kit": "^3.16.1",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
     "@nuxt/devtools": "^2.3.1",
@@ -41,6 +44,7 @@
     "changelogen": "^0.6.1",
     "eslint": "^9.23.0",
     "nuxt": "^3.16.1",
+    "prettier": "^3.5.3",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9",
     "vue-tsc": "^2.2.8"

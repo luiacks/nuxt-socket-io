@@ -1,19 +1,36 @@
-import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
+import { defineNuxtModule, createResolver, addImports } from "@nuxt/kit";
+import type { Server } from "socket.io";
 
-// Module options TypeScript interface definition
+declare module "nitropack" {
+  interface NitroRuntimeHooks {
+    "socket.io": (io: Server) => void;
+  }
+}
+
 export interface ModuleOptions {}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'my-module',
-    configKey: 'myModule',
+    name: "nuxt-socket-io",
+    configKey: "io",
   },
-  // Default configuration options of the Nuxt module
-  defaults: {},
   setup(_options, _nuxt) {
-    const resolver = createResolver(import.meta.url)
+    const resolver = createResolver(import.meta.url);
 
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin'))
+    _nuxt.hook("nitro:config", (nitroConfig) => {
+      if (nitroConfig.experimental) {
+        nitroConfig.experimental.websocket = true;
+      }
+
+      _nuxt.hook("nitro:build:before", (nitro) => {
+        nitro.options.plugins.push(resolver.resolve("./runtime/server"));
+      });
+
+      addImports({
+        name: "useSocket",
+        as: "useSocket",
+        from: resolver.resolve("./runtime/useSocket"),
+      });
+    });
   },
-})
+});
