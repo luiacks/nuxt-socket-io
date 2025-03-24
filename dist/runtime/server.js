@@ -1,3 +1,4 @@
+import { defineNitroPlugin } from "nitropack/runtime";
 import { Server as Engine } from "engine.io";
 import { Server } from "socket.io";
 export default defineNitroPlugin(async (nitroApp) => {
