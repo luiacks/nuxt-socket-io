@@ -10,5 +10,5 @@ export function useSocket(...args: Parameters<typeof io>): Ref<Socket> {
     socket.value.disconnect();
   });
 
-  return socket;
+  return { socket };
 }
